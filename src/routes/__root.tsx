@@ -30,7 +30,7 @@ export const Route = createRootRoute({
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/tips">tips</Link>
+                <Link to="/tips">Tips</Link>
               </li>
             </ul>
           </div>
