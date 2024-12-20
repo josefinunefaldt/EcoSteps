@@ -2,14 +2,39 @@ import React, { useState } from "react";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
-  const [redMeatFrequency, setRedMeatFrequency] = useState(0);
+  const [carType, setCarType] = useState("");
+  const [weeklyDistance, setWeeklyDistance] = useState(0);
+  const [flies, setFlies] = useState(false);
   const [flightsPerYear, setFlightsPerYear] = useState(0);
+  const [flightType, setFlightType] = useState("");
+  const [redMeatFrequency, setRedMeatFrequency] = useState(0);
+  const [dairyFrequency, setDairyFrequency] = useState(0);
+  const [plantBasedFrequency, setPlantBasedFrequency] = useState(0);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!travelMethod) {
+      alert("Please select a travel method.");
+      return;
+    }
+
+    if (flies && (!flightsPerYear || !flightType)) {
+      alert("Please fill in your flight details.");
+      return;
+    }
+
     console.log("Travel Method:", travelMethod);
+    console.log("Car Type:", carType);
+    console.log("Weekly Distance:", weeklyDistance);
+    console.log("Flies:", flies);
+    if (flies) {
+      console.log("Flights Per Year:", flightsPerYear);
+      console.log("Flight Type:", flightType);
+    }
     console.log("Red Meat Frequency:", redMeatFrequency);
-    console.log("Flights Per Year:", flightsPerYear);
+    console.log("Dairy Frequency:", dairyFrequency);
+    console.log("Plant-Based Frequency:", plantBasedFrequency);
   };
 
   return (
@@ -29,6 +54,7 @@ const Form = () => {
           value={travelMethod}
           onChange={(e) => setTravelMethod(e.target.value)}
           className="select select-bordered w-full mb-4"
+          required
         >
           <option value="" disabled>
             Select your main method
@@ -39,11 +65,106 @@ const Form = () => {
           <option value="Bike">Bike</option>
           <option value="Walk">Walk</option>
         </select>
+
+        {travelMethod === "Car" && (
+          <>
+            <label
+              htmlFor="car-type"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              What type of car do you own?
+            </label>
+            <select
+              id="car-type"
+              value={carType}
+              onChange={(e) => setCarType(e.target.value)}
+              className="select select-bordered w-full mb-4"
+            >
+              <option value="" disabled>
+                Select car type
+              </option>
+              <option value="Gasoline">Gasoline</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Electric">Electric</option>
+            </select>
+
+            <label
+              htmlFor="weekly-distance"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              How many kilometers/miles do you drive weekly?
+            </label>
+            <input
+              id="weekly-distance"
+              type="number"
+              min={0}
+              value={weeklyDistance}
+              onChange={(e) => setWeeklyDistance(Number(e.target.value))}
+              placeholder="Distance per week"
+              className="input input-bordered w-full mb-4"
+            />
+          </>
+        )}
+
+        <label
+          htmlFor="flies"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
+          Do you travel by airplane?
+        </label>
+        <select
+          id="flies"
+          value={flies ? "yes" : "no"}
+          onChange={(e) => setFlies(e.target.value === "yes")}
+          className="select select-bordered w-full mb-4"
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        {flies && (
+          <>
+            <label
+              htmlFor="airplane-travel"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              How many times a year do you fly?
+            </label>
+            <input
+              id="airplane-travel"
+              type="number"
+              min={0}
+              value={flightsPerYear}
+              onChange={(e) => setFlightsPerYear(Number(e.target.value))}
+              placeholder="Number of flights"
+              className="input input-bordered w-full mb-4"
+            />
+            <label
+              htmlFor="flight-type"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              Are these flights mostly short-haul or long-haul?
+            </label>
+            <select
+              id="flight-type"
+              value={flightType}
+              onChange={(e) => setFlightType(e.target.value)}
+              className="select select-bordered w-full mb-4"
+            >
+              <option value="" disabled>
+                Select flight type
+              </option>
+              <option value="Short-haul">Short-haul (&lt; 3 hours)</option>
+              <option value="Long-haul">Long-haul (&gt; 3 hours)</option>
+            </select>
+          </>
+        )}
         <label
           htmlFor="red-meat-consumption"
           className="block mb-2 text-sm font-medium text-gray-700"
         >
-          How often do you eat red meat?
+          How many days per week do you eat red meat?
         </label>
         <input
           id="red-meat-consumption"
@@ -55,20 +176,38 @@ const Form = () => {
           placeholder="Days per week"
           className="input input-bordered w-full mb-4"
         />
+
         <label
-          htmlFor="airplane-travel"
+          htmlFor="dairy-consumption"
           className="block mb-2 text-sm font-medium text-gray-700"
         >
-          How many times a year do you fly?
+          How many days per week do you consume dairy?
         </label>
         <input
-          id="airplane-travel"
+          id="dairy-consumption"
           type="number"
           min={0}
-          max={365}
-          value={flightsPerYear}
-          onChange={(e) => setFlightsPerYear(Number(e.target.value))}
-          placeholder="Number of flights"
+          max={7}
+          value={dairyFrequency}
+          onChange={(e) => setDairyFrequency(Number(e.target.value))}
+          placeholder="Days per week"
+          className="input input-bordered w-full mb-4"
+        />
+
+        <label
+          htmlFor="plant-based-consumption"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
+          How many days per week do you eat plant-based meals?
+        </label>
+        <input
+          id="plant-based-consumption"
+          type="number"
+          min={0}
+          max={7}
+          value={plantBasedFrequency}
+          onChange={(e) => setPlantBasedFrequency(Number(e.target.value))}
+          placeholder="Days per week"
           className="input input-bordered w-full mb-4"
         />
 
