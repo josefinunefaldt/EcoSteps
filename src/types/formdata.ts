@@ -8,4 +8,7 @@ export type formData = {
   redMeatFrequency: number;
   plantBasedFrequency: number;
   fuelConsumption: number;
+  electricPercentage: number;
+  energyConsumption: number;
+  hybridFuelType: string;
 };

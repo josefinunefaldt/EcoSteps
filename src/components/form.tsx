@@ -11,6 +11,9 @@ const Form = () => {
   const [redMeatFrequency, setRedMeatFrequency] = useState(0);
   const [plantBasedFrequency, setPlantBasedFrequency] = useState(0);
   const [fuelConsumption, setFuelConsumption] = useState(0);
+  const [energyConsumption, setEnergyConsumption] = useState(0);
+  const [electricPercentage, setElectricPercentage] = useState(0);
+  const [hybridFuelType, setHybridFuelType] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +38,9 @@ const Form = () => {
       redMeatFrequency,
       plantBasedFrequency,
       fuelConsumption,
+      energyConsumption,
+      electricPercentage,
+      hybridFuelType,
     };
 
     const result = CarbonCalculater(formData);
@@ -86,29 +92,6 @@ const Form = () => {
           className="input input-bordered w-full mb-4"
         />
 
-        {travelMethod === "Car" &&
-          (carType === "Gasoline" ||
-            carType === "Diesel" ||
-            carType === "Hybrid") && (
-            <>
-              <label
-                htmlFor="fuel-consumption"
-                className="block mb-2 text-sm font-medium text-gray-700"
-              >
-                What is your car's fuel consumption (L/100 km)?
-              </label>
-              <input
-                id="fuel-consumption"
-                type="number"
-                min={0}
-                value={fuelConsumption}
-                onChange={(e) => setFuelConsumption(Number(e.target.value))}
-                placeholder="Fuel consumption (L/100 km)"
-                className="input input-bordered w-full mb-4"
-              />
-            </>
-          )}
-
         {travelMethod === "Car" && (
           <>
             <label
@@ -131,6 +114,91 @@ const Form = () => {
               <option value="Hybrid">Hybrid</option>
               <option value="Electric">Electric</option>
             </select>
+
+            {carType === "Gasoline" ||
+            carType === "Diesel" ||
+            carType === "Hybrid" ? (
+              <>
+                <label
+                  htmlFor="fuel-consumption"
+                  className="block mb-2 text-sm font-medium text-gray-700"
+                >
+                  What is your car's fuel consumption (L/100 km)?
+                </label>
+                <input
+                  id="fuel-consumption"
+                  type="number"
+                  min={0}
+                  value={fuelConsumption}
+                  onChange={(e) => setFuelConsumption(Number(e.target.value))}
+                  placeholder="Fuel consumption (L/100 km)"
+                  className="input input-bordered w-full mb-4"
+                />
+              </>
+            ) : null}
+
+            {carType === "Hybrid" && (
+              <>
+                <label
+                  htmlFor="electric-percentage"
+                  className="block mb-2 text-sm font-medium text-gray-700"
+                >
+                  What percentage of your distance is powered by electricity?
+                </label>
+                <input
+                  id="electric-percentage"
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={electricPercentage}
+                  onChange={(e) =>
+                    setElectricPercentage(Number(e.target.value))
+                  }
+                  placeholder="Percentage of distance on electricity"
+                  className="input input-bordered w-full mb-4"
+                />
+
+                <label
+                  htmlFor="hybrid-fuel-type"
+                  className="block mb-2 text-sm font-medium text-gray-700"
+                >
+                  What type of fuel does your hybrid car use for non-electric
+                  driving?
+                </label>
+                <select
+                  id="hybrid-fuel-type"
+                  value={hybridFuelType}
+                  onChange={(e) => setHybridFuelType(e.target.value)}
+                  className="select select-bordered w-full mb-4"
+                >
+                  <option value="" disabled>
+                    Select fuel type for hybrid
+                  </option>
+                  <option value="Gasoline">Gasoline</option>
+                  <option value="Diesel">Diesel</option>
+                </select>
+              </>
+            )}
+
+            {carType === "Electric" && (
+              <>
+                <label
+                  htmlFor="energy-consumption"
+                  className="block mb-2 text-sm font-medium text-gray-700"
+                >
+                  What is your car's energy consumption (kWh/100 km)?
+                </label>
+                <input
+                  id="energy-consumption"
+                  type="number"
+                  min={0}
+                  value={energyConsumption}
+                  onChange={(e) => setEnergyConsumption(Number(e.target.value))}
+                  placeholder="Energy consumption (kWh/100 km)"
+                  className="input input-bordered w-full mb-4"
+                />
+              </>
+            )}
           </>
         )}
 
