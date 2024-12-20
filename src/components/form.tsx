@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import CarbonCalculater from "../helper/carbonCalculater";
+import CarEmissionCalculator from "../helper/carEmissionCalculator";
+import UndergroundEmissionCalculator from "../helper/undergroudEmissionCalc";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -14,6 +15,7 @@ const Form = () => {
   const [energyConsumption, setEnergyConsumption] = useState(0);
   const [electricPercentage, setElectricPercentage] = useState(0);
   const [hybridFuelType, setHybridFuelType] = useState("");
+  const [annualEmission, setAnnualEmission] = useState<number>(0);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,23 +30,39 @@ const Form = () => {
       return;
     }
 
-    const formData = {
-      travelMethod,
+    const carFormData = {
       carType,
       weeklyDistance,
-      flies,
-      flightsPerYear,
-      flightType,
-      redMeatFrequency,
-      plantBasedFrequency,
       fuelConsumption,
       energyConsumption,
       electricPercentage,
       hybridFuelType,
     };
+    const undergroundFormData = {
+      weeklyDistance,
+    };
 
-    const result = CarbonCalculater(formData);
-    console.log("Carbon Footprint:", result);
+    const carResult = CarEmissionCalculator(carFormData);
+    const undergroundResult =
+      UndergroundEmissionCalculator(undergroundFormData);
+
+    setAnnualEmission(carResult + undergroundResult);
+  };
+
+  const handleReset = () => {
+    setTravelMethod("");
+    setCarType("");
+    setWeeklyDistance(0);
+    setFlies(false);
+    setFlightsPerYear(0);
+    setFlightType("");
+    setRedMeatFrequency(0);
+    setPlantBasedFrequency(0);
+    setFuelConsumption(0);
+    setEnergyConsumption(0);
+    setElectricPercentage(0);
+    setHybridFuelType("");
+    setAnnualEmission(0);
   };
 
   return (
@@ -75,7 +93,6 @@ const Form = () => {
           <option value="Bike">Bike</option>
           <option value="Walk">Walk</option>
         </select>
-
         <label
           htmlFor="weekly-distance"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -91,7 +108,6 @@ const Form = () => {
           placeholder="Distance per week"
           className="input input-bordered w-full mb-4"
         />
-
         {travelMethod === "Car" && (
           <>
             <label
@@ -201,7 +217,6 @@ const Form = () => {
             )}
           </>
         )}
-
         <label
           htmlFor="flies"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -255,7 +270,6 @@ const Form = () => {
             </select>
           </>
         )}
-
         <label
           htmlFor="red-meat-consumption"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -272,7 +286,6 @@ const Form = () => {
           placeholder="Days per week"
           className="input input-bordered w-full mb-4"
         />
-
         <label
           htmlFor="plant-based-consumption"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -290,9 +303,23 @@ const Form = () => {
           className="input input-bordered w-full mb-4"
         />
 
-        <button type="submit" className="btn btn-primary w-full mt-4">
-          Calculate
-        </button>
+        <div className="flex flex-col justify-between">
+          <button type="submit" className="btn btn-primary w-full mb-4">
+            Calculate Emissions
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="btn btn-secondary w-full mb-4"
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className="text-center mt-4">
+          <h3 className="text-lg font-semibold">Annual Carbon Emissions:</h3>
+          <p className="text-xl text-gray-800">{annualEmission.toFixed(2)}</p>
+        </div>
       </form>
     </div>
   );
