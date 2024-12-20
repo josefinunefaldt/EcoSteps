@@ -7,4 +7,5 @@ export type formData = {
   flightType: string;
   redMeatFrequency: number;
   plantBasedFrequency: number;
+  fuelConsumption: number;
 };

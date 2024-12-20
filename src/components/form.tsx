@@ -10,6 +10,7 @@ const Form = () => {
   const [flightType, setFlightType] = useState("");
   const [redMeatFrequency, setRedMeatFrequency] = useState(0);
   const [plantBasedFrequency, setPlantBasedFrequency] = useState(0);
+  const [fuelConsumption, setFuelConsumption] = useState(0);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ const Form = () => {
       flightType,
       redMeatFrequency,
       plantBasedFrequency,
+      fuelConsumption,
     };
 
     const result = CarbonCalculater(formData);
@@ -83,6 +85,29 @@ const Form = () => {
           placeholder="Distance per week"
           className="input input-bordered w-full mb-4"
         />
+
+        {travelMethod === "Car" &&
+          (carType === "Gasoline" ||
+            carType === "Diesel" ||
+            carType === "Hybrid") && (
+            <>
+              <label
+                htmlFor="fuel-consumption"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                What is your car's fuel consumption (L/100 km)?
+              </label>
+              <input
+                id="fuel-consumption"
+                type="number"
+                min={0}
+                value={fuelConsumption}
+                onChange={(e) => setFuelConsumption(Number(e.target.value))}
+                placeholder="Fuel consumption (L/100 km)"
+                className="input input-bordered w-full mb-4"
+              />
+            </>
+          )}
 
         {travelMethod === "Car" && (
           <>
