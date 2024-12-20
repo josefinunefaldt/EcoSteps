@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CarbonCalculater from "../helper/carbonCalculater";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -8,7 +9,6 @@ const Form = () => {
   const [flightsPerYear, setFlightsPerYear] = useState(0);
   const [flightType, setFlightType] = useState("");
   const [redMeatFrequency, setRedMeatFrequency] = useState(0);
-  const [dairyFrequency, setDairyFrequency] = useState(0);
   const [plantBasedFrequency, setPlantBasedFrequency] = useState(0);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,17 +24,19 @@ const Form = () => {
       return;
     }
 
-    console.log("Travel Method:", travelMethod);
-    console.log("Car Type:", carType);
-    console.log("Weekly Distance:", weeklyDistance);
-    console.log("Flies:", flies);
-    if (flies) {
-      console.log("Flights Per Year:", flightsPerYear);
-      console.log("Flight Type:", flightType);
-    }
-    console.log("Red Meat Frequency:", redMeatFrequency);
-    console.log("Dairy Frequency:", dairyFrequency);
-    console.log("Plant-Based Frequency:", plantBasedFrequency);
+    const formData = {
+      travelMethod,
+      carType,
+      weeklyDistance,
+      flies,
+      flightsPerYear,
+      flightType,
+      redMeatFrequency,
+      plantBasedFrequency,
+    };
+
+    const result = CarbonCalculater(formData);
+    console.log("Carbon Footprint:", result);
   };
 
   return (
@@ -66,6 +68,22 @@ const Form = () => {
           <option value="Walk">Walk</option>
         </select>
 
+        <label
+          htmlFor="weekly-distance"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
+          How many kilometers per week do you travel?
+        </label>
+        <input
+          id="weekly-distance"
+          type="number"
+          min={0}
+          value={weeklyDistance}
+          onChange={(e) => setWeeklyDistance(Number(e.target.value))}
+          placeholder="Distance per week"
+          className="input input-bordered w-full mb-4"
+        />
+
         {travelMethod === "Car" && (
           <>
             <label
@@ -88,22 +106,6 @@ const Form = () => {
               <option value="Hybrid">Hybrid</option>
               <option value="Electric">Electric</option>
             </select>
-
-            <label
-              htmlFor="weekly-distance"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              How many kilometers/miles do you drive weekly?
-            </label>
-            <input
-              id="weekly-distance"
-              type="number"
-              min={0}
-              value={weeklyDistance}
-              onChange={(e) => setWeeklyDistance(Number(e.target.value))}
-              placeholder="Distance per week"
-              className="input input-bordered w-full mb-4"
-            />
           </>
         )}
 
@@ -160,6 +162,7 @@ const Form = () => {
             </select>
           </>
         )}
+
         <label
           htmlFor="red-meat-consumption"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -173,23 +176,6 @@ const Form = () => {
           max={7}
           value={redMeatFrequency}
           onChange={(e) => setRedMeatFrequency(Number(e.target.value))}
-          placeholder="Days per week"
-          className="input input-bordered w-full mb-4"
-        />
-
-        <label
-          htmlFor="dairy-consumption"
-          className="block mb-2 text-sm font-medium text-gray-700"
-        >
-          How many days per week do you consume dairy?
-        </label>
-        <input
-          id="dairy-consumption"
-          type="number"
-          min={0}
-          max={7}
-          value={dairyFrequency}
-          onChange={(e) => setDairyFrequency(Number(e.target.value))}
           placeholder="Days per week"
           className="input input-bordered w-full mb-4"
         />
