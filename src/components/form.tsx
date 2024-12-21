@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CarEmissionCalculator from "../helper/carEmissionCalculator";
 import UndergroundEmissionCalculator from "../helper/undergroudEmissionCalc";
+import CommuterTrainCalculator from "../helper/commuterTrainCalculator";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -20,16 +21,6 @@ const Form = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!travelMethod) {
-      alert("Please select a travel method.");
-      return;
-    }
-
-    if (flies && (!flightsPerYear || !flightType)) {
-      alert("Please fill in your flight details.");
-      return;
-    }
-
     const carFormData = {
       carType,
       weeklyDistance,
@@ -38,15 +29,58 @@ const Form = () => {
       electricPercentage,
       hybridFuelType,
     };
-    const undergroundFormData = {
-      weeklyDistance,
-    };
+    let calculatedEmission = 0;
 
-    const carResult = CarEmissionCalculator(carFormData);
-    const undergroundResult =
-      UndergroundEmissionCalculator(undergroundFormData);
+    if (!travelMethod) {
+      alert("Please select a travel method.");
+      return;
+    }
 
-    setAnnualEmission(carResult + undergroundResult);
+    switch (travelMethod) {
+      case "Car": {
+        if (!carType || !fuelConsumption) {
+          alert("Please provide car type and fuel consumption.");
+          return;
+        }
+
+        calculatedEmission = CarEmissionCalculator(carFormData);
+        break;
+      }
+
+      case "Underground": {
+        if (weeklyDistance <= 0) {
+          alert("Please provide a weekly distance.");
+          return;
+        }
+
+        const undergroundData = { weeklyDistance };
+        calculatedEmission = UndergroundEmissionCalculator(undergroundData);
+        break;
+      }
+
+      case "Commuter train": {
+        if (weeklyDistance <= 0) {
+          alert("Please provide a weekly distance.");
+          return;
+        }
+
+        const trainData = { weeklyDistance };
+        calculatedEmission = CommuterTrainCalculator(trainData);
+        break;
+      }
+
+      case "Walk":
+      case "Bike": {
+        calculatedEmission = 0;
+        break;
+      }
+
+      default: {
+        alert("Invalid travel method selected.");
+        return;
+      }
+    }
+    setAnnualEmission(Number(calculatedEmission.toFixed(2)));
   };
 
   const handleReset = () => {
@@ -89,7 +123,7 @@ const Form = () => {
           </option>
           <option value="Car">Car</option>
           <option value="Underground">Underground</option>
-          <option value="Tram">Tram</option>
+          <option value="Commuter train">Commuter train</option>
           <option value="Bike">Bike</option>
           <option value="Walk">Walk</option>
         </select>

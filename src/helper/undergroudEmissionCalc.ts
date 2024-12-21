@@ -1,9 +1,9 @@
-import underGroundFormType from "../types/underGroundType";
+import DistanceType from "../types/distanceType";
 
 const workingWeeks = 47;
 const swedenUndergroundEmissionFactor = 2.28;
 
-const calculateUndergroundEmissions = (input: underGroundFormType): number => {
+const calculateUndergroundEmissions = (input: DistanceType): number => {
   const emissionsInGrams =
     input.weeklyDistance * swedenUndergroundEmissionFactor;
   const emissionsInKg = emissionsInGrams / 1000;
