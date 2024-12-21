@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CarEmissionCalculator from "../helper/carEmissionCalculator";
 import UndergroundEmissionCalculator from "../helper/undergroudEmissionCalc";
 import CommuterTrainCalculator from "../helper/commuterTrainCalculator";
+import CalculateFlightEmissions from "../helper/flightEmissionCalculator";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -29,7 +30,18 @@ const Form = () => {
       electricPercentage,
       hybridFuelType,
     };
-    let calculatedEmission = 0;
+
+    const distanceFormData = {
+      weeklyDistance,
+    };
+
+    const flightFormData = {
+      flies,
+      flightType,
+      flightsPerYear,
+    };
+    let commuteEmission = 0;
+    let flightEmission = 0;
 
     if (!travelMethod) {
       alert("Please select a travel method.");
@@ -43,7 +55,7 @@ const Form = () => {
           return;
         }
 
-        calculatedEmission = CarEmissionCalculator(carFormData);
+        commuteEmission = CarEmissionCalculator(carFormData);
         break;
       }
 
@@ -52,9 +64,7 @@ const Form = () => {
           alert("Please provide a weekly distance.");
           return;
         }
-
-        const undergroundData = { weeklyDistance };
-        calculatedEmission = UndergroundEmissionCalculator(undergroundData);
+        commuteEmission = UndergroundEmissionCalculator(distanceFormData);
         break;
       }
 
@@ -64,23 +74,25 @@ const Form = () => {
           return;
         }
 
-        const trainData = { weeklyDistance };
-        calculatedEmission = CommuterTrainCalculator(trainData);
+        commuteEmission = CommuterTrainCalculator(distanceFormData);
         break;
       }
 
       case "Walk":
       case "Bike": {
-        calculatedEmission = 0;
+        commuteEmission = 0;
         break;
       }
 
       default: {
-        alert("Invalid travel method selected.");
+        alert("Invalid travel method");
         return;
       }
     }
-    setAnnualEmission(Number(calculatedEmission.toFixed(2)));
+    if (flies) {
+      flightEmission = CalculateFlightEmissions(flightFormData);
+    }
+    setAnnualEmission(Number(commuteEmission.toFixed(2)) + flightEmission);
   };
 
   const handleReset = () => {
