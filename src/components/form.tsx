@@ -3,6 +3,7 @@ import CarEmissionCalculator from "../helper/carEmissionCalculator";
 import UndergroundEmissionCalculator from "../helper/undergroudEmissionCalc";
 import CommuterTrainCalculator from "../helper/commuterTrainCalculator";
 import CalculateFlightEmissions from "../helper/flightEmissionCalculator";
+import CalculateRedMeatEmissions from "../helper/redMeatEmissionCalculator";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -40,8 +41,13 @@ const Form = () => {
       flightType,
       flightsPerYear,
     };
+    const redMeatFormData = {
+      redMeatFrequency,
+    };
+
     let commuteEmission = 0;
     let flightEmission = 0;
+    let redMeatEmission = 0;
 
     if (!travelMethod) {
       alert("Please select a travel method.");
@@ -92,7 +98,13 @@ const Form = () => {
     if (flies) {
       flightEmission = CalculateFlightEmissions(flightFormData);
     }
-    setAnnualEmission(Number(commuteEmission.toFixed(2)) + flightEmission);
+
+    if (redMeatFrequency > 0) {
+      redMeatEmission = CalculateRedMeatEmissions(redMeatFormData);
+    }
+    setAnnualEmission(
+      Number(commuteEmission.toFixed(2)) + flightEmission + redMeatEmission
+    );
   };
 
   const handleReset = () => {
