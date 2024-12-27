@@ -21,8 +21,73 @@ const Form = () => {
   const [hybridFuelType, setHybridFuelType] = useState("");
   const [annualEmission, setAnnualEmission] = useState<number>(0);
 
+  const [errors, setErrors] = useState({
+    travelMethod: "",
+    carType: "",
+    weeklyDistance: "",
+    fuelConsumption: "",
+    flightsPerYear: "",
+    redMeatFrequency: "",
+    plantBasedFrequency: "",
+    electricPercentage: "",
+    hybridFuelType: "",
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let isValid = true;
+    const newErrors = {
+      travelMethod: "",
+      carType: "",
+      weeklyDistance: "",
+      fuelConsumption: "",
+      flightsPerYear: "",
+      redMeatFrequency: "",
+      plantBasedFrequency: "",
+      electricPercentage: "",
+      hybridFuelType: "",
+    };
+
+    if (!travelMethod) {
+      newErrors.travelMethod = "Please select a travel method.";
+      isValid = false;
+    }
+
+    if (travelMethod === "Car") {
+      if (!carType) {
+        newErrors.carType = "Please select a car type.";
+        isValid = false;
+      }
+      if (
+        (carType === "Gasoline" ||
+          carType === "Diesel" ||
+          carType === "Hybrid") &&
+        fuelConsumption == 0
+      ) {
+        newErrors.fuelConsumption =
+          "Please provide fuel consumption (L/100 km).";
+        isValid = false;
+      }
+      if (carType === "Hybrid" && electricPercentage == 0) {
+        newErrors.electricPercentage = " Please provide Electric percentage.";
+        isValid = false;
+      }
+    }
+
+    if (
+      travelMethod === "Underground" ||
+      travelMethod === "Commuter train" ||
+      travelMethod == "Car"
+    ) {
+      if (weeklyDistance == 0) {
+        newErrors.weeklyDistance = "Please provide a weekly distance.";
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+
+    if (!isValid) return;
 
     const carFormData = {
       carType,
@@ -32,75 +97,34 @@ const Form = () => {
       electricPercentage,
       hybridFuelType,
     };
-
-    const distanceFormData = {
-      weeklyDistance,
-    };
-
-    const flightFormData = {
-      flies,
-      flightType,
-      flightsPerYear,
-    };
-    const redMeatFormData = {
-      redMeatFrequency,
-    };
-
-    const plantbasedFormData = {
-      plantBasedFrequency,
-    };
+    const distanceFormData = { weeklyDistance };
+    const flightFormData = { flies, flightType, flightsPerYear };
+    const redMeatFormData = { redMeatFrequency };
+    const plantbasedFormData = { plantBasedFrequency };
 
     let commuteEmission = 0;
     let flightEmission = 0;
     let redMeatEmission = 0;
     let plantbasedEmission = 0;
 
-    if (!travelMethod) {
-      alert("Please select a travel method.");
-      return;
-    }
-
     switch (travelMethod) {
-      case "Car": {
-        if (!carType || !fuelConsumption) {
-          alert("Please provide car type and fuel consumption.");
-          return;
-        }
-
+      case "Car":
         commuteEmission = CarEmissionCalculator(carFormData);
         break;
-      }
-
-      case "Underground": {
-        if (weeklyDistance <= 0) {
-          alert("Please provide a weekly distance.");
-          return;
-        }
+      case "Underground":
         commuteEmission = UndergroundEmissionCalculator(distanceFormData);
         break;
-      }
-
-      case "Commuter train": {
-        if (weeklyDistance <= 0) {
-          alert("Please provide a weekly distance.");
-          return;
-        }
-
+      case "Commuter train":
         commuteEmission = CommuterTrainCalculator(distanceFormData);
         break;
-      }
-
       case "Walk":
-      case "Bike": {
+      case "Bike":
         commuteEmission = 0;
         break;
-      }
-
-      default: {
-        alert("Invalid travel method");
-        return;
-      }
+      default:
+        break;
     }
+
     if (flies) {
       flightEmission = CalculateFlightEmissions(flightFormData);
     }
@@ -108,9 +132,11 @@ const Form = () => {
     if (redMeatFrequency > 0) {
       redMeatEmission = CalculateRedMeatEmissions(redMeatFormData);
     }
+
     if (plantBasedFrequency > 0) {
       plantbasedEmission = PlantbasedFoodCalculator(plantbasedFormData);
     }
+
     setAnnualEmission(
       Number(commuteEmission.toFixed(2)) +
         flightEmission +
@@ -133,6 +159,17 @@ const Form = () => {
     setElectricPercentage(0);
     setHybridFuelType("");
     setAnnualEmission(0);
+    setErrors({
+      travelMethod: "",
+      carType: "",
+      weeklyDistance: "",
+      fuelConsumption: "",
+      flightsPerYear: "",
+      redMeatFrequency: "",
+      plantBasedFrequency: "",
+      electricPercentage: "",
+      hybridFuelType: "",
+    });
   };
 
   return (
@@ -152,7 +189,6 @@ const Form = () => {
           value={travelMethod}
           onChange={(e) => setTravelMethod(e.target.value)}
           className="select select-bordered w-full mb-4"
-          required
         >
           <option value="" disabled>
             Select your main method
@@ -163,6 +199,10 @@ const Form = () => {
           <option value="Bike">Bike</option>
           <option value="Walk">Walk</option>
         </select>
+        {errors.travelMethod && (
+          <p className="text-red-500 text-sm">{errors.travelMethod}</p>
+        )}
+
         <label
           htmlFor="weekly-distance"
           className="block mb-2 text-sm font-medium text-gray-700"
@@ -178,6 +218,10 @@ const Form = () => {
           placeholder="Distance per week"
           className="input input-bordered w-full mb-4"
         />
+        {errors.weeklyDistance && (
+          <p className="text-red-500 text-sm">{errors.weeklyDistance}</p>
+        )}
+
         {travelMethod === "Car" && (
           <>
             <label
@@ -200,10 +244,11 @@ const Form = () => {
               <option value="Hybrid">Hybrid</option>
               <option value="Electric">Electric</option>
             </select>
+            {errors.carType && (
+              <p className="text-red-500 text-sm">{errors.carType}</p>
+            )}
 
-            {carType === "Gasoline" ||
-            carType === "Diesel" ||
-            carType === "Hybrid" ? (
+            {["Gasoline", "Diesel", "Hybrid"].includes(carType) && (
               <>
                 <label
                   htmlFor="fuel-consumption"
@@ -220,16 +265,20 @@ const Form = () => {
                   placeholder="Fuel consumption (L/100 km)"
                   className="input input-bordered w-full mb-4"
                 />
+                {errors.fuelConsumption && (
+                  <p className="text-red-500 text-sm">
+                    {errors.fuelConsumption}
+                  </p>
+                )}
               </>
-            ) : null}
-
+            )}
             {carType === "Hybrid" && (
               <>
                 <label
                   htmlFor="electric-percentage"
                   className="block mb-2 text-sm font-medium text-gray-700"
                 >
-                  What percentage of your distance is powered by electricity?
+                  What percentage of your hybrid car uses electricity?
                 </label>
                 <input
                   id="electric-percentage"
@@ -240,155 +289,76 @@ const Form = () => {
                   onChange={(e) =>
                     setElectricPercentage(Number(e.target.value))
                   }
-                  placeholder="Percentage of distance on electricity"
+                  placeholder="Electric percentage"
                   className="input input-bordered w-full mb-4"
                 />
-
-                <label
-                  htmlFor="hybrid-fuel-type"
-                  className="block mb-2 text-sm font-medium text-gray-700"
-                >
-                  What type of fuel does your hybrid car use for non-electric
-                  driving?
-                </label>
-                <select
-                  id="hybrid-fuel-type"
-                  value={hybridFuelType}
-                  onChange={(e) => setHybridFuelType(e.target.value)}
-                  className="select select-bordered w-full mb-4"
-                >
-                  <option value="" disabled>
-                    Select fuel type for hybrid
-                  </option>
-                  <option value="Gasoline">Gasoline</option>
-                  <option value="Diesel">Diesel</option>
-                </select>
-              </>
-            )}
-
-            {carType === "Electric" && (
-              <>
-                <label
-                  htmlFor="energy-consumption"
-                  className="block mb-2 text-sm font-medium text-gray-700"
-                >
-                  What is your car's energy consumption (kWh/100 km)?
-                </label>
-                <input
-                  id="energy-consumption"
-                  type="number"
-                  min={0}
-                  value={energyConsumption}
-                  onChange={(e) => setEnergyConsumption(Number(e.target.value))}
-                  placeholder="Energy consumption (kWh/100 km)"
-                  className="input input-bordered w-full mb-4"
-                />
+                {errors.electricPercentage && (
+                  <p className="text-red-500 text-sm">
+                    {errors.electricPercentage}
+                  </p>
+                )}
               </>
             )}
           </>
         )}
-        <label
-          htmlFor="flies"
-          className="block mb-2 text-sm font-medium text-gray-700"
-        >
-          Do you travel by airplane?
-        </label>
-        <select
-          id="flies"
-          value={flies ? "yes" : "no"}
-          onChange={(e) => setFlies(e.target.value === "yes")}
-          className="select select-bordered w-full mb-4"
-        >
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
-        </select>
 
-        {flies && (
-          <>
-            <label
-              htmlFor="airplane-travel"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              How many times a year do you fly?
-            </label>
-            <input
-              id="airplane-travel"
-              type="number"
-              min={0}
-              value={flightsPerYear}
-              onChange={(e) => setFlightsPerYear(Number(e.target.value))}
-              placeholder="Number of flights"
-              className="input input-bordered w-full mb-4"
-            />
-            <label
-              htmlFor="flight-type"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              Are these flights mostly short-haul or long-haul?
-            </label>
-            <select
-              id="flight-type"
-              value={flightType}
-              onChange={(e) => setFlightType(e.target.value)}
-              className="select select-bordered w-full mb-4"
-            >
-              <option value="" disabled>
-                Select flight type
-              </option>
-              <option value="Short-haul">Short-haul (&lt; 3 hours)</option>
-              <option value="Long-haul">Long-haul (&gt; 3 hours)</option>
-            </select>
-          </>
-        )}
-        <label
-          htmlFor="red-meat-consumption"
-          className="block mb-2 text-sm font-medium text-gray-700"
-        >
-          How many days per week do you eat red meat?
-        </label>
         <input
-          id="red-meat-consumption"
+          id="red-meat-frequency"
           type="number"
           min={0}
           max={7}
           value={redMeatFrequency}
-          onChange={(e) => setRedMeatFrequency(Number(e.target.value))}
-          placeholder="Days per week"
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value + plantBasedFrequency <= 7) {
+              setRedMeatFrequency(value);
+            }
+          }}
+          placeholder="Red meat frequency (0-7)"
           className="input input-bordered w-full mb-4"
         />
-        <label
-          htmlFor="plant-based-consumption"
-          className="block mb-2 text-sm font-medium text-gray-700"
-        >
-          How many days per week do you eat plant-based meals?
-        </label>
+        {errors.redMeatFrequency && (
+          <p className="text-red-500 text-sm">{errors.redMeatFrequency}</p>
+        )}
+
         <input
-          id="plant-based-consumption"
+          id="plant-based-frequency"
           type="number"
           min={0}
           max={7}
           value={plantBasedFrequency}
-          onChange={(e) => setPlantBasedFrequency(Number(e.target.value))}
-          placeholder="Days per week"
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value + redMeatFrequency <= 7) {
+              setPlantBasedFrequency(value);
+            }
+          }}
+          placeholder="Plant-based frequency (0-7)"
           className="input input-bordered w-full mb-4"
         />
+        {errors.plantBasedFrequency && (
+          <p className="text-red-500 text-sm">{errors.plantBasedFrequency}</p>
+        )}
 
-        <div className="flex flex-col justify-between">
-          <button type="submit" className="btn btn-primary w-full mb-4">
-            Calculate Emissions
-          </button>
-          <button
-            type="button"
-            onClick={handleReset}
-            className="btn btn-secondary w-full mb-4"
-          >
-            Reset
-          </button>
-        </div>
+        <button type="submit" className="btn btn-primary w-full mb-4">
+          Calculate Emissions
+        </button>
 
-        <div className="text-center mt-4">
-          <h3 className="text-lg font-semibold">Annual Carbon Emissions:</h3>
-          <p className="text-xl text-gray-800">{annualEmission.toFixed(2)}</p>
+        <button
+          type="button"
+          onClick={handleReset}
+          className="btn btn-secondary w-full"
+        >
+          Reset
+        </button>
+
+        <div className="mt-4">
+          {annualEmission > 0 && (
+            <p className="text-lg font-semibold">
+              Your estimated annual carbon emissions are {annualEmission} kg
+              CO2.
+            </p>
+          )}
         </div>
       </form>
     </div>
