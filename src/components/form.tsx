@@ -21,6 +21,7 @@ const Form = () => {
   const [electricPercentage, setElectricPercentage] = useState(0);
   const [hybridFuelType, setHybridFuelType] = useState("");
   const [annualEmission, setAnnualEmission] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [errors, setErrors] = useState({
     travelMethod: "",
@@ -145,6 +146,7 @@ const Form = () => {
         redMeatEmission +
         plantbasedEmission
     );
+    setIsModalOpen(true);
   };
 
   const handleReset = () => {
@@ -172,6 +174,10 @@ const Form = () => {
       electricPercentage: "",
       hybridFuelType: "",
     });
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -365,15 +371,16 @@ const Form = () => {
         >
           Reset
         </button>
-
-        <div className="mt-4">
-          {annualEmission > 0 && (
-            <p className="text-lg font-semibold">
+      </form>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">Your Emission Result</h2>
+            <p className="text-xl mb-4">
               Your estimated annual carbon emissions are {annualEmission} kg
               CO2.
             </p>
-          )}
-          {annualEmission > 0 && (
             <Suggestions
               annualEmission={annualEmission}
               redMeatFrequency={redMeatFrequency}
@@ -386,9 +393,15 @@ const Form = () => {
                 setPlantBasedFrequency(newFrequency)
               }
             />
-          )}
+            <button
+              onClick={closeModal}
+              className="btn btn-primary w-full mt-4"
+            >
+              Close
+            </button>
+          </div>
         </div>
-      </form>
+      )}
     </div>
   );
 };
