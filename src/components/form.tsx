@@ -5,6 +5,7 @@ import CommuterTrainCalculator from "../helper/commuterTrainCalculator";
 import CalculateFlightEmissions from "../helper/flightEmissionCalculator";
 import CalculateRedMeatEmissions from "../helper/redMeatEmissionCalculator";
 import PlantbasedFoodCalculator from "../helper/plantbasedFoodCalculator";
+import Suggestions from "./suggestions";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -97,6 +98,7 @@ const Form = () => {
       electricPercentage,
       hybridFuelType,
     };
+
     const distanceFormData = { weeklyDistance };
     const flightFormData = { flies, flightType, flightsPerYear };
     const redMeatFormData = { redMeatFrequency };
@@ -176,7 +178,7 @@ const Form = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full"
+        className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full"
       >
         <label
           htmlFor="travel-method"
@@ -302,6 +304,12 @@ const Form = () => {
           </>
         )}
 
+        <label
+          htmlFor="red-meat-frequency"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
+          How many days per week do you eat red meat?
+        </label>
         <input
           id="red-meat-frequency"
           type="number"
@@ -314,13 +322,19 @@ const Form = () => {
               setRedMeatFrequency(value);
             }
           }}
-          placeholder="Red meat frequency (0-7)"
+          placeholder="0-7 days"
           className="input input-bordered w-full mb-4"
         />
         {errors.redMeatFrequency && (
           <p className="text-red-500 text-sm">{errors.redMeatFrequency}</p>
         )}
 
+        <label
+          htmlFor="plant-based-frequency"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
+          How many days per week do you eat plant-based meals?
+        </label>
         <input
           id="plant-based-frequency"
           type="number"
@@ -333,7 +347,7 @@ const Form = () => {
               setPlantBasedFrequency(value);
             }
           }}
-          placeholder="Plant-based frequency (0-7)"
+          placeholder="0-7 days"
           className="input input-bordered w-full mb-4"
         />
         {errors.plantBasedFrequency && (
@@ -358,6 +372,20 @@ const Form = () => {
               Your estimated annual carbon emissions are {annualEmission} kg
               CO2.
             </p>
+          )}
+          {annualEmission > 0 && (
+            <Suggestions
+              annualEmission={annualEmission}
+              redMeatFrequency={redMeatFrequency}
+              plantBasedFrequency={plantBasedFrequency}
+              updateEmissions={(newEmission) => setAnnualEmission(newEmission)}
+              updateRedMeatFrequency={(newFrequency) =>
+                setRedMeatFrequency(newFrequency)
+              }
+              updatePlantBasedFrequency={(newFrequency) =>
+                setPlantBasedFrequency(newFrequency)
+              }
+            />
           )}
         </div>
       </form>
