@@ -54,7 +54,7 @@ const hybridCarCalculator = (input: CarFormType): number => {
   return yearlyResult;
 };
 
-export const calculateCarbonFootprint = (inputs: CarFormType): number => {
+export const calculateTransportEmissions = (inputs: CarFormType): number => {
   let carbonFootprint = 0;
   switch (inputs.carType) {
     case "Gasoline":
@@ -78,4 +78,4 @@ export const calculateCarbonFootprint = (inputs: CarFormType): number => {
   return Number(carbonFootprint.toFixed(2));
 };
 
-export default calculateCarbonFootprint;
+export default calculateTransportEmissions;

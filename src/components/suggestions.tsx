@@ -1,6 +1,6 @@
 import React from "react";
-import calculatePlantbasedEmissions from "../helper/plantbasedFoodCalculator";
-import calculateRedMeatEmissions from "../helper/redMeatEmissionCalculator";
+import calculatePlantbasedEmissions from "../helper/calculatePlantbasedEmissions";
+import calculateRedMeatEmissions from "../helper/calculateRedMeatEmissions";
 import SuggestionsProps from "../types/suggestionsType";
 
 const Suggestions: React.FC<SuggestionsProps> = ({

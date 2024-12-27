@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import CarEmissionCalculator from "../helper/carEmissionCalculator";
-import UndergroundEmissionCalculator from "../helper/undergroudEmissionCalc";
-import CommuterTrainCalculator from "../helper/commuterTrainCalculator";
-import CalculateFlightEmissions from "../helper/flightEmissionCalculator";
-import CalculateRedMeatEmissions from "../helper/redMeatEmissionCalculator";
-import PlantbasedFoodCalculator from "../helper/plantbasedFoodCalculator";
+import CalculateCarEmissions from "../helper/calculateCarEmissions";
+import CalculateUndergroundEmissions from "../helper/calculateUndergroundEmissions";
+import CalculateCommuterTrainEmissions from "../helper/calculateCommuterTrainEmissions";
+import CalculateFlightEmissions from "../helper/calculateFlightEmissions";
+import CalculateRedMeatEmissions from "../helper/calculateRedMeatEmissions";
+import CalculatePlantbasedEmissions from "../helper/calculatePlantbasedEmissions";
 import Suggestions from "./suggestions";
 
 const Form = () => {
@@ -112,13 +112,13 @@ const Form = () => {
 
     switch (travelMethod) {
       case "Car":
-        commuteEmission = CarEmissionCalculator(carFormData);
+        commuteEmission = CalculateCarEmissions(carFormData);
         break;
       case "Underground":
-        commuteEmission = UndergroundEmissionCalculator(distanceFormData);
+        commuteEmission = CalculateUndergroundEmissions(distanceFormData);
         break;
       case "Commuter train":
-        commuteEmission = CommuterTrainCalculator(distanceFormData);
+        commuteEmission = CalculateCommuterTrainEmissions(distanceFormData);
         break;
       case "Walk":
       case "Bike":
@@ -137,7 +137,7 @@ const Form = () => {
     }
 
     if (plantBasedFrequency > 0) {
-      plantbasedEmission = PlantbasedFoodCalculator(plantbasedFormData);
+      plantbasedEmission = CalculatePlantbasedEmissions(plantbasedFormData);
     }
 
     setAnnualEmission(
@@ -372,7 +372,6 @@ const Form = () => {
           Reset
         </button>
       </form>
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -381,18 +380,22 @@ const Form = () => {
               Your estimated annual carbon emissions are {annualEmission} kg
               CO2.
             </p>
-            <Suggestions
-              annualEmission={annualEmission}
-              redMeatFrequency={redMeatFrequency}
-              plantBasedFrequency={plantBasedFrequency}
-              updateEmissions={(newEmission) => setAnnualEmission(newEmission)}
-              updateRedMeatFrequency={(newFrequency) =>
-                setRedMeatFrequency(newFrequency)
-              }
-              updatePlantBasedFrequency={(newFrequency) =>
-                setPlantBasedFrequency(newFrequency)
-              }
-            />
+            {redMeatFrequency > 0 && (
+              <Suggestions
+                annualEmission={annualEmission}
+                redMeatFrequency={redMeatFrequency}
+                plantBasedFrequency={plantBasedFrequency}
+                updateEmissions={(newEmission) =>
+                  setAnnualEmission(newEmission)
+                }
+                updateRedMeatFrequency={(newFrequency) =>
+                  setRedMeatFrequency(newFrequency)
+                }
+                updatePlantBasedFrequency={(newFrequency) =>
+                  setPlantBasedFrequency(newFrequency)
+                }
+              />
+            )}
             <button
               onClick={closeModal}
               className="btn btn-primary w-full mt-4"
