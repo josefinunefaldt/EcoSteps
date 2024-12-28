@@ -5,6 +5,8 @@ import CalculateCommuterTrainEmissions from "../helper/calculateCommuterTrainEmi
 import CalculateFlightEmissions from "../helper/calculateFlightEmissions";
 import CalculateRedMeatEmissions from "../helper/calculateRedMeatEmissions";
 import CalculatePlantbasedEmissions from "../helper/calculatePlantbasedEmissions";
+import Background from "../assets/forest.jpg";
+import Logo from "../assets/recycle.png";
 import Suggestions from "./suggestions";
 
 const Form = () => {
@@ -181,10 +183,16 @@ const Form = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${Background})`,
+      }}
+    >
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full"
+        className=" p-6 rounded-lg shadow-lg max-w-lg w-full"
+        style={{ backgroundColor: "#A5C882" }}
       >
         <label
           htmlFor="travel-method"
@@ -337,7 +345,7 @@ const Form = () => {
 
         <label
           htmlFor="plant-based-frequency"
-          className="block mb-2 text-sm font-medium text-gray-700"
+          className="block mb-2 text-sm font-medium text-gray-700 border-0"
         >
           How many days per week do you eat plant-based meals?
         </label>
@@ -360,26 +368,33 @@ const Form = () => {
           <p className="text-red-500 text-sm">{errors.plantBasedFrequency}</p>
         )}
 
-        <button type="submit" className="btn btn-primary w-full mb-4">
+        <button
+          type="submit"
+          className="btn w-full mb-4 text-white border-0 "
+          style={{ backgroundColor: "#093824" }}
+        >
           Calculate Emissions
         </button>
 
         <button
           type="button"
           onClick={handleReset}
-          className="btn btn-secondary w-full"
+          className="btn w-full border-0"
+          style={{ backgroundColor: "#F7DD72" }}
         >
           Reset
         </button>
       </form>
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold mb-4">Your Emission Result</h2>
-            <p className="text-xl mb-4">
-              Your estimated annual carbon emissions are {annualEmission} kg
-              CO2.
+          <div
+            className=" p-6 rounded-lg shadow-lg w-96"
+            style={{ backgroundColor: "#A5C882" }}
+          >
+            <p className="text-xl mb-4 text-center font-semibold">
+              Your estimated annual carbon emissions are {annualEmission} kg CO2
             </p>
+            <img src={Logo} className="w-40 m-auto" />
             {redMeatFrequency > 0 && (
               <Suggestions
                 annualEmission={annualEmission}
@@ -398,7 +413,8 @@ const Form = () => {
             )}
             <button
               onClick={closeModal}
-              className="btn btn-primary w-full mt-4"
+              className="btn w-full border-0 text-black"
+              style={{ backgroundColor: "#F7DD72" }}
             >
               Close
             </button>

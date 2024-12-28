@@ -34,18 +34,19 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   };
 
   return (
-    <div className="bg-blue-50 p-4 mt-4 rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold mb-2">Reduce your footprint</h2>
+    <div className="text-center">
+      <h2 className="text-lg font-semibold mb-2">Reduce your footprint here</h2>
 
       {redMeatFrequency > 0 && (
         <div className="mb-4">
           <p>
-            You consume red meat {redMeatFrequency} day(s) per week. Swap to one
-            plantbased day
+            You consume red meat {redMeatFrequency} days per week. <br />
+            Swap to one plantbased day
           </p>
           <button
             onClick={handleReduceRedMeat}
-            className="btn btn-primary mt-2"
+            className="btn btn-primary mt-5 w-full border-0"
+            style={{ backgroundColor: "#093824" }}
           >
             Swap
           </button>

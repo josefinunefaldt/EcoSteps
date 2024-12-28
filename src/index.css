@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+#eco {
+  font-family: "Bodoni Moda", serif;
+  font-style: normal;
+  font-size: xx-large;
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
