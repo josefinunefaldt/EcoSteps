@@ -53,13 +53,13 @@ const Form = () => {
     };
 
     if (!travelMethod) {
-      newErrors.travelMethod = "Please select a travel method.";
+      newErrors.travelMethod = "* Please select a travel method.";
       isValid = false;
     }
 
     if (travelMethod === "Car") {
       if (!carType) {
-        newErrors.carType = "Please select a car type.";
+        newErrors.carType = "* Please select a car type.";
         isValid = false;
       }
       if (
@@ -69,11 +69,11 @@ const Form = () => {
         fuelConsumption == 0
       ) {
         newErrors.fuelConsumption =
-          "Please provide fuel consumption (L/100 km).";
+          "* Please provide fuel consumption (L/100 km).";
         isValid = false;
       }
       if (carType === "Hybrid" && electricPercentage == 0) {
-        newErrors.electricPercentage = " Please provide Electric percentage.";
+        newErrors.electricPercentage = "* Please provide Electric percentage.";
         isValid = false;
       }
     }
@@ -84,7 +84,7 @@ const Form = () => {
       travelMethod == "Car"
     ) {
       if (weeklyDistance == 0) {
-        newErrors.weeklyDistance = "Please provide a weekly distance.";
+        newErrors.weeklyDistance = "* Please provide a weekly distance.";
         isValid = false;
       }
     }
@@ -216,7 +216,9 @@ const Form = () => {
           <option value="Walk">Walk</option>
         </select>
         {errors.travelMethod && (
-          <p className="text-red-500 text-sm">{errors.travelMethod}</p>
+          <p className="text-red-600 text-sm font-semibold -mt-4">
+            {errors.travelMethod}
+          </p>
         )}
 
         <label
@@ -235,7 +237,9 @@ const Form = () => {
           className="input input-bordered w-full mb-4"
         />
         {errors.weeklyDistance && (
-          <p className="text-red-500 text-sm">{errors.weeklyDistance}</p>
+          <p className="text-red-600 text-sm font-semibold -mt-4">
+            {errors.weeklyDistance}
+          </p>
         )}
 
         {travelMethod === "Car" && (
@@ -261,7 +265,9 @@ const Form = () => {
               <option value="Electric">Electric</option>
             </select>
             {errors.carType && (
-              <p className="text-red-500 text-sm">{errors.carType}</p>
+              <p className="text-red-600 text-sm font-semibold -mt-4">
+                {errors.carType}
+              </p>
             )}
 
             {["Gasoline", "Diesel", "Hybrid"].includes(carType) && (
@@ -282,7 +288,7 @@ const Form = () => {
                   className="input input-bordered w-full mb-4"
                 />
                 {errors.fuelConsumption && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-600 text-sm font-semibold -mt-4">
                     {errors.fuelConsumption}
                   </p>
                 )}
@@ -309,7 +315,7 @@ const Form = () => {
                   className="input input-bordered w-full mb-4"
                 />
                 {errors.electricPercentage && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-600 text-sm font-semibold -mt-4 ">
                     {errors.electricPercentage}
                   </p>
                 )}
@@ -340,7 +346,9 @@ const Form = () => {
           className="input input-bordered w-full mb-4"
         />
         {errors.redMeatFrequency && (
-          <p className="text-red-500 text-sm">{errors.redMeatFrequency}</p>
+          <p className="text-red-600 text-sm font-semibold -mt-4">
+            {errors.redMeatFrequency}
+          </p>
         )}
 
         <label
@@ -365,12 +373,14 @@ const Form = () => {
           className="input input-bordered w-full mb-4"
         />
         {errors.plantBasedFrequency && (
-          <p className="text-red-500 text-sm">{errors.plantBasedFrequency}</p>
+          <p className="text-red-600 text-sm font-semibold -mt-4">
+            {errors.plantBasedFrequency}
+          </p>
         )}
 
         <button
           type="submit"
-          className="btn w-full mb-4 text-white border-0 "
+          className="btn w-full mb-4 text-white border-0 hover-effect"
           style={{ backgroundColor: "#093824" }}
         >
           Calculate Emissions
@@ -379,7 +389,7 @@ const Form = () => {
         <button
           type="button"
           onClick={handleReset}
-          className="btn w-full border-0"
+          className="btn w-full border-0 hover-effect"
           style={{ backgroundColor: "#F7DD72" }}
         >
           Reset
@@ -413,7 +423,7 @@ const Form = () => {
             )}
             <button
               onClick={closeModal}
-              className="btn w-full border-0 text-black"
+              className="btn w-full border-0 text-black hover-effect"
               style={{ backgroundColor: "#F7DD72" }}
             >
               Close

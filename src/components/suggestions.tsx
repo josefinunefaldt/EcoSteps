@@ -45,7 +45,7 @@ const Suggestions: React.FC<SuggestionsProps> = ({
           </p>
           <button
             onClick={handleReduceRedMeat}
-            className="btn btn-primary mt-5 w-full border-0"
+            className="btn btn-primary mt-5 w-full border-0 hover-effect"
             style={{ backgroundColor: "#093824" }}
           >
             Swap

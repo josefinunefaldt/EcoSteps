@@ -26,10 +26,14 @@ export const Route = createRootRoute({
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 font-semibold p-2 shadow"
             >
               <li>
-                <Link to="/about">About</Link>
+                <Link className="navbar-links" to="/about">
+                  About
+                </Link>
               </li>
               <li>
-                <Link to="/tips">Tips</Link>
+                <Link className="navbar-links" to="/tips">
+                  Tips
+                </Link>
               </li>
             </ul>
           </div>
@@ -40,10 +44,14 @@ export const Route = createRootRoute({
         <div className=" w-full place-content-end hidden lg:flex font">
           <ul className="menu menu-horizontal px-1 text-black font-semibold mr-3">
             <li>
-              <Link to="/about">About</Link>
+              <Link className="navbar-links" to="/about">
+                About
+              </Link>
             </li>
             <li>
-              <Link to="/tips">Tips</Link>
+              <Link className="navbar-links" to="/tips">
+                Tips
+              </Link>
             </li>
           </ul>
         </div>
