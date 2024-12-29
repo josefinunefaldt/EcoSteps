@@ -40,8 +40,9 @@ const Suggestions: React.FC<SuggestionsProps> = ({
       {redMeatFrequency > 0 && (
         <div className="mb-4">
           <p>
-            You consume red meat {redMeatFrequency} days per week. <br />
-            Swap to one plantbased day
+            You consume red meat {redMeatFrequency}{" "}
+            {redMeatFrequency === 1 ? "day" : "days"} per week. <br />
+            Swap to one plant-based day.
           </p>
           <button
             onClick={handleReduceRedMeat}
