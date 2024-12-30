@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+# 🌱 **EcoSteps: Carbon Footprint Tracker**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+EcoSteps is a simple web application designed to help individuals calculate and reduce their carbon footprint. By providing insights into everyday activities and their environmental impact, **EcoSteps** empowers users to make informed, eco-friendly decisions.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 **Features**
 
-## Expanding the ESLint configuration
+- **🌍 Track Your Carbon Footprint**  
+  Calculate emissions based on transportation and food consumption.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **♻️ Eco-Friendly Suggestions**  
+  Get actionable tips to lower your carbon footprint and live more sustainably.
 
-- Configure the top-level `parserOptions` property like this:
+- **📱 Mobile-Responsive Design**  
+  Access EcoSteps seamlessly on any device, whether desktop or mobile.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🌍 **Why EcoSteps?**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Every step toward sustainability counts. EcoSteps helps you:
+- 🌱 **Understand your impact** on the environment.  
+- 🌟 **Develop eco-conscious habits** to reduce waste and energy consumption.  
+- 🌎 **Contribute to global carbon neutrality efforts** by making smarter choices.  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+**Together, we can make a difference!** 🌟
+
+---
+
+## 🛠️ **Tech Stack**
+
+- **Frontend**: React + Vite  
+- **Routing**: TanStack Router  
+- **Styling**: TailwindCSS + DaisyUI, CSS  
+- **Hosting**: GitHub Pages  
+- **Build Tool**: Vite
+
+---
+
+## 💡 **Getting Started**
+
+1. **Clone the repository**:  
+   ```bash
+   git clone https://github.com/your-username/EcoSteps.git
+   cd EcoSteps
+   npm i
+   npm run dev
