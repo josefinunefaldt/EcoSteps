@@ -6,8 +6,7 @@ import CalculateFlightEmissions from "../helper/calculateFlightEmissions";
 import CalculateRedMeatEmissions from "../helper/calculateRedMeatEmissions";
 import CalculatePlantbasedEmissions from "../helper/calculatePlantbasedEmissions";
 import Background from "../assets/forest.jpg";
-import Logo from "../assets/recycle.png";
-import Suggestions from "./suggestions";
+import Modal from "./modal";
 
 const Form = () => {
   const [travelMethod, setTravelMethod] = useState("");
@@ -396,40 +395,19 @@ const Form = () => {
         </button>
       </form>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-          <div
-            className=" p-6 rounded-lg shadow-lg w-96"
-            style={{ backgroundColor: "#A5C882" }}
-          >
-            <p className="text-xl mb-4 text-center font-semibold">
-              Your estimated annual carbon emissions are {annualEmission} kg CO2
-            </p>
-            <img src={Logo} className="w-40 m-auto" />
-            {redMeatFrequency > 0 && (
-              <Suggestions
-                annualEmission={annualEmission}
-                redMeatFrequency={redMeatFrequency}
-                plantBasedFrequency={plantBasedFrequency}
-                updateEmissions={(newEmission) =>
-                  setAnnualEmission(newEmission)
-                }
-                updateRedMeatFrequency={(newFrequency) =>
-                  setRedMeatFrequency(newFrequency)
-                }
-                updatePlantBasedFrequency={(newFrequency) =>
-                  setPlantBasedFrequency(newFrequency)
-                }
-              />
-            )}
-            <button
-              onClick={closeModal}
-              className="btn w-full border-0 text-black hover-effect"
-              style={{ backgroundColor: "#F7DD72" }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        <Modal
+          annualEmission={annualEmission}
+          redMeatFrequency={redMeatFrequency}
+          plantBasedFrequency={plantBasedFrequency}
+          closeModal={closeModal}
+          updateEmissions={(newEmission) => setAnnualEmission(newEmission)}
+          updateRedMeatFrequency={(newFrequency) =>
+            setRedMeatFrequency(newFrequency)
+          }
+          updatePlantBasedFrequency={(newFrequency) =>
+            setPlantBasedFrequency(newFrequency)
+          }
+        />
       )}
     </div>
   );
