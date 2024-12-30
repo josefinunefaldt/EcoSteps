@@ -1,6 +1,6 @@
-# 🌱 **EcoSteps: Carbon Footprint Tracker**
+# 🌱 **eco | steps: Carbon Footprint Tracker**
 
-EcoSteps is a simple web application designed to help individuals calculate and reduce their carbon footprint. By providing insights into everyday activities and their environmental impact, **EcoSteps** empowers users to make informed, eco-friendly decisions.
+eco steps is a simple web application designed to help individuals calculate and reduce their carbon footprint. By providing insights into everyday activities and their environmental impact, **EcoSteps** empowers users to make informed, eco-friendly decisions.
 
 ---
 
