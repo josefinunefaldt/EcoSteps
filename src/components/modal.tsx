@@ -34,7 +34,7 @@ const Modal: React.FC<ModalType> = ({
         )}
         <button
           onClick={closeModal}
-          className="btn w-full border-0 text-black hover-effect"
+          className="btn w-full border-0 text-black"
           style={{ backgroundColor: "#F7DD72" }}
         >
           Close

@@ -379,7 +379,7 @@ const Form = () => {
 
         <button
           type="submit"
-          className="btn w-full mb-4 text-white border-0 hover-effect"
+          className="btn w-full mb-4 text-white border-0"
           style={{ backgroundColor: "#093824" }}
         >
           Calculate Emissions
@@ -388,7 +388,7 @@ const Form = () => {
         <button
           type="button"
           onClick={handleReset}
-          className="btn w-full border-0 hover-effect"
+          className="btn w-full border-0"
           style={{ backgroundColor: "#F7DD72" }}
         >
           Reset
