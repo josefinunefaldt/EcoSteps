@@ -1,5 +1,4 @@
-# 🌱 <strong>eco | steps</strong> - Carbon footprint calculator
-
+# 🌱 **eco | steps**
 
 eco steps is a simple web application designed to help individuals calculate and reduce their carbon footprint. By providing insights into everyday activities and their environmental impact, **eco steps** empowers users to make informed, eco-friendly decisions.
 
