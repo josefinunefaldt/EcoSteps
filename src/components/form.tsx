@@ -183,14 +183,14 @@ const Form = () => {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen bg-cover bg-center"
+      className="flex justify-center items-center min-h-screen bg-cover  bg-center"
       style={{
         backgroundImage: `url(${Background})`,
       }}
     >
       <form
         onSubmit={handleSubmit}
-        className=" p-6 rounded-lg shadow-lg max-w-lg w-full"
+        className="p-6 rounded-lg shadow-lg max-w-lg w-full mb-24 sm:mb-0"
         style={{ backgroundColor: "#A5C882" }}
       >
         <label

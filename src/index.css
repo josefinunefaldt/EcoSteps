@@ -15,6 +15,11 @@ body {
   font-style: normal;
   font-size: xx-large;
 }
+@media (max-width: 640px) {
+  #eco {
+    font-size: x-large;
+  }
+}
 
 button {
   transition: transform 0.2s ease;
