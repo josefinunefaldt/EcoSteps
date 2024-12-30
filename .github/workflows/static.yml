@@ -32,6 +32,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Generate routes file
+        run: |
+          docker compose run --rm --no-deps react npm run router:generate
+
       - name: Build Vite project
         run: npm run build
 
