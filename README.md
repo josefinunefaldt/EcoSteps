@@ -17,7 +17,7 @@ eco steps is a simple web application designed to help individuals calculate and
 
 ---
 
-## 🌍 **Why EcoSteps?**
+## 🌍 **Why Eco steps?**
 
 Every step toward sustainability counts. EcoSteps helps you:
 - 🌱 **Understand your impact** on the environment.  
